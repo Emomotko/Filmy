@@ -10,22 +10,23 @@
 #' 
 #' 
 #' 
-create <- function(fname, frame) {
+create <- function(fname, lista) {
+  
+  if (!file.exists(fname)) {
+    f <- file(fname, open = "a")
+    # tworze pierwszy wiersz w pliku:
+    writeLines(stri_paste("\"name\"", "\"jobTitle\"", "\"Place_of_Birth\"", "\"BirthDate\"", 
+                          "\"DeathDate\"", "\"Film\"", sep = ";"), f)
+  } else f <- file(fname, open = "a")
+  
+  if (length(lista$name) > 0) {
     
-    if (!file.exists(fname)) {
-        f <- file(fname, open = "a")
-        # tworze pierwszy wiersz w pliku:
-        writeLines(stri_paste("\"name\"", "\"jobTitle\"", "\"Place_of_Birth\"", "\"BirthDate\"", 
-            "\"DeathDate\"", "\"Film\"", sep = ";"), f)
-    } else f <- file(fname, open = "a")
-    
-    if (nrow(frame) > 0) {
-        
-        for (i in seq_along(frame[, 1])) {
-            # dopisuje do pliku kolejny wiersz
-            writeLines(stri_paste(frame[i, 1], frame[i, 2], frame[i, 3], frame[i, 4], 
-                frame[i, 5], frame[i, 6], sep = ";"), f)
-        }
+    for (i in seq_along(lista$name)) {
+      # dopisuje do pliku kolejny wiersz
+      writeLines(stri_paste(lista$name[i], lista$job[i], lista$birth[i], lista$birth_place[i], 
+                            lista$death[i], sep = ";"), f)
     }
-    close(f)
+  }
+  close(f)
 } 
+
