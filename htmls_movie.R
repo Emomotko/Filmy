@@ -14,13 +14,16 @@
 #' 
 htmls_movie <- function(www, selector) {
     
-    tryCatch({
+    url <- tryCatch({
         
-        url <- html(www)
+        html(www)
         
     }, error = function(e) {
-        return("NA")
+        "NA"
     })
+    
+    if(is.character(url)&&url=="NA") return("NA")
+    
     
     a <- getNodeSet(url, selector)
     if (is.null(a)) 

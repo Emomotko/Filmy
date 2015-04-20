@@ -13,14 +13,12 @@ actors <- function(www) {
   
   selector<-c(actor="//table[@class='cast_list']//a")
   
-    tryCatch({
-        htmls <- htmls_movie(www, selector)
-    }, error = function(e) {
-        return(invisible(NULL))
-    })
-    
-    if (length(htmls) == 1 && htmls == "NA") 
-        return("NA")
-    harvest_people(htmls)
-    
+  htmls <- tryCatch({
+    htmls_movie(www, selector)
+  }, error = function(e) {"NA"})
+  
+  if (length(htmls) == 1 && is.character(htmls) && htmls == "NA") 
+    return("NA")
+  harvest_people(htmls)
+  
 } 

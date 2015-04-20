@@ -11,37 +11,34 @@
 #' 
 #' 
 get_names <- function(www) {
-    
-    tryCatch({
-        
-        url <- html(www)
-        
-    }, error = function(e) {
-        return(invisible(NULL))
-    })
-    
-    # PRODUCENCI
-    
-    tryCatch({
-        prod <- url %>% html_nodes(".simpleCreditsTable:nth-child(9) a") %>% html_text() %>% 
-            stri_trim_both()
-    }, error = function(e) {
-        prod <- "NA"
-    })
-    
-    # MUZYCY
-    
-    tryCatch({
-        music <- url %>% html_nodes(".simpleCreditsTable:nth-child(11) a") %>% html_text() %>% 
-            stri_trim_both()
-    }, error = function(e) {
-        music <- "NA"
-    })
-    
-    
-    if (length(prod) == 0) 
-        prod <- "NA"
-    if (length(music) == 0) 
-        music <- "NA"
-    return(list(music = music, producers = prod))
+  
+  url <- tryCatch({      
+    html(www)   
+  }, error = function(e) {"NA"})
+  
+  if(is.character(url)&&url=="NA") return("NA")
+  # PRODUCENCI
+  
+  prod <- tryCatch({
+    url %>% html_nodes(".simpleCreditsTable:nth-child(9) a") %>% html_text() %>% 
+      stri_trim_both()
+  }, error = function(e) {
+    "NA"
+  })
+  
+  # MUZYCY
+  
+  music <- tryCatch({
+    url %>% html_nodes(".simpleCreditsTable:nth-child(11) a") %>% html_text() %>% 
+      stri_trim_both()
+  }, error = function(e) {
+    "NA"
+  })
+  
+  
+  if (length(prod) == 0) 
+    prod <- "NA"
+  if (length(music) == 0) 
+    music <- "NA"
+  return(list(music = music, producers = prod))
 } 
