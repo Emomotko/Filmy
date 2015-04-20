@@ -20,6 +20,7 @@ director <- function(www) {
   
   if (length(htmls) == 1 && is.character(htmls) && htmls == "NA") 
     return("NA")
-    harvest_people(htmls)
-    
+  lista <- harvest_people(htmls)
+  create("Director.csv",lista)
+  return(lista$name)   
 } 
