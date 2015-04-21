@@ -21,11 +21,13 @@ summary = function(links,titles,film){
     summary = html_nodes(summary,'.plotSummary')
     opis = html_text(summary)
     opis = stri_replace_all_regex(opis,'\\p{WHITE_SPACE}',' ')
+    if (is.na(opis)) opis='NA'
   } else {
     opis = html_nodes(film,'#overview-top p')
     opis = html_text(opis)
     opis = stri_replace_all_regex(opis,'\\p{WHITE_SPACE}',' ')
+    if (is.na(opis)) opis='NA'
   }
-  if (is.na(opis)) opis='NA'
+  if (length(opis)==0) opis="NA"
   return(opis)
 }
