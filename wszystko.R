@@ -61,6 +61,10 @@ wszystko = function(link){
       liczba_innych_nagrod = unlist(stri_extract_all_regex(liczba_innych_nagrod,'[0-9]+'))
       if (is.na(liczba_innych_nagrod)) liczba_innych_nagrod='NA'
       
+  }else{
+    liczba_nominacji='NA'
+    liczba_oscarow='NA'
+    liczba_innych_nagrod='NA'
   }
  
   
