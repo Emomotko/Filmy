@@ -16,7 +16,7 @@ create <- function(fname, lista) {
     f <- file(fname, open = "a")
     # tworze pierwszy wiersz w pliku:
     writeLines(stri_paste("\"name\"", "\"jobTitle\"", "\"Place_of_Birth\"", "\"BirthDate\"", 
-                          "\"DeathDate\"", "\"Film\"", sep = ";"), f)
+                          "\"DeathDate\"", sep = ";"), f)
   } else f <- file(fname, open = "a")
   
   if (length(lista$name) > 0) {
