@@ -96,6 +96,11 @@ wszystko = function(link){
     if (length(rezyser)>1) rezyser=stri_paste(rezyser,collapse='@')
     aktorzy = actors(obsada_link) 
     aktorzy = stri_paste(aktorzy,collapse='@')
+  } else{
+    muzyka <- "NA"
+    producenci <- "NA"
+    rezyser <- "NA"
+    aktorzy <- "NA"
   }
   
 
