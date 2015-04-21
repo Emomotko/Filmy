@@ -10,13 +10,13 @@
 #' @import XML
 #' 
 
-wyjmij = function(film, nodes){
-  wez = html_nodes(film,nodes)
-  nazwa = html_text(wez)
-  nazwa = stri_replace_all_regex(nazwa,'\\p{WHITE_SPACE}',' ')
-  if (length(nazwa)==0 ){
-    return("NA")
-  } else {
-     return(nazwa)
-  }
-}
+wyjmij = function(film, nodes) {
+    wez = html_nodes(film, nodes)
+    nazwa = html_text(wez)
+    nazwa = stri_replace_all_regex(nazwa, "\\p{WHITE_SPACE}", " ")
+    if (length(nazwa) == 0) {
+        return("NA")
+    } else {
+        return(nazwa)
+    }
+} 

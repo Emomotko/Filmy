@@ -22,7 +22,8 @@ htmls_movie <- function(www, selector) {
         "NA"
     })
     
-    if(is.character(url)&&url=="NA") return("NA")
+    if (is.character(url) && url == "NA") 
+        return("NA")
     
     
     a <- getNodeSet(url, selector)
@@ -45,10 +46,10 @@ htmls_movie <- function(www, selector) {
         podstawa <- "http://www.imdb.com"
         linki <- stri_paste(podstawa, linki)
         n <- length(linki)
-        if(n>30&&n<80){
-          k <- floor(n/2)
-        } else if(n>=80){
-          k <- floor(n/3) 
+        if (n > 30 && n < 80) {
+            k <- floor(n/2)
+        } else if (n >= 80) {
+            k <- floor(n/3)
         } else k <- n
         
         linki <- linki[1:k]
@@ -56,5 +57,4 @@ htmls_movie <- function(www, selector) {
         return(sapply(linki, html))
     } else return("NA")
     
-}
- 
+} 

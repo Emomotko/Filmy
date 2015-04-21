@@ -13,22 +13,22 @@
 #' @import XML
 #' 
 
-wydobadz = function(links,titles,film,nodes1,nodes2){
-  wek_pom = stri_detect_regex(titles,nodes1)
-  ktory = which(wek_pom==TRUE)
-  wynik=vector()
-  if (length(ktory) > 0 ){
-    w=links[wek_pom]
-    link_n = stri_paste('http://www.imdb.com',w[1])
-    awards = html(link_n)
-    awards = html_nodes(awards,nodes2)
-    wynik = html_text(awards)
-    wynik = stri_replace_all_regex(wynik,'\\p{WHITE_SPACE}',' ')
-   
-  }
-  if (length(wynik)==0){
-    return("NA")
-  } else {
-    return(wynik)
-  }
-}
+wydobadz = function(links, titles, film, nodes1, nodes2) {
+    wek_pom = stri_detect_regex(titles, nodes1)
+    ktory = which(wek_pom == TRUE)
+    wynik = vector()
+    if (length(ktory) > 0) {
+        w = links[wek_pom]
+        link_n = stri_paste("http://www.imdb.com", w[1])
+        awards = html(link_n)
+        awards = html_nodes(awards, nodes2)
+        wynik = html_text(awards)
+        wynik = stri_replace_all_regex(wynik, "\\p{WHITE_SPACE}", " ")
+        
+    }
+    if (length(wynik) == 0) {
+        return("NA")
+    } else {
+        return(wynik)
+    }
+} 

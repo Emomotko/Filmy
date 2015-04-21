@@ -10,17 +10,19 @@
 #' 
 #' 
 actors <- function(www) {
-  
-  selector<-c(actor="//table[@class='cast_list']//a")
-  
-  htmls <- tryCatch({
-    htmls_movie(www, selector)
-  }, error = function(e) {"NA"})
-  
-  if (length(htmls) == 1 && is.character(htmls) && htmls == "NA") 
-    return("NA")
-  lista <- harvest_people(htmls)
-  create("Actors.csv",lista)
-  return(lista$name)
-  
+    
+    selector <- c(actor = "//table[@class='cast_list']//a")
+    
+    htmls <- tryCatch({
+        htmls_movie(www, selector)
+    }, error = function(e) {
+        "NA"
+    })
+    
+    if (length(htmls) == 1 && is.character(htmls) && htmls == "NA") 
+        return("NA")
+    lista <- harvest_people(htmls)
+    create("Actors.csv", lista)
+    return(lista$name)
+    
 } 
