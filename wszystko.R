@@ -120,11 +120,11 @@ wszystko = function(link){
   id_film =stri_sub(link,27,35)
   
   lista2 = list(id=id_film,link=link,Title=tytul,Year=rok,Time=czas,Relase=data_wydania,
-       Genre=gatunek,Storyline=fabula,MPAA=mpaa,Country=kraj,Ratings=ocena,
-       Ratings_max=max_ocena,Users=liczba_glosujacych,Reviews_number=liczba_recenzji,
-       Budget=budzet,Keywords=klucze,Description=opis,Oscar=liczba_oscarow,
-       Another_awards=liczba_innych_nagrod,Nominations=liczba_nominacji,Music=muzyka,
-       Produced=producenci,Actors=aktorzy )
+                Genre=gatunek,Storyline=fabula,MPAA=mpaa,Country=kraj,Ratings=ocena,
+                Ratings_max=max_ocena,Users=liczba_glosujacych,Reviews_number=liczba_recenzji,
+                Budget=budzet,Keywords=klucze,Description=opis,Oscar=liczba_oscarow,
+                Another_awards=liczba_innych_nagrod,Nominations=liczba_nominacji,Music=muzyka,
+                Produced=producenci,Actors=aktorzy,Director=rezyser )
   
   lista3 = list(id=id_film,text=recenzje)
   create2('filmy.csv',lista2)
