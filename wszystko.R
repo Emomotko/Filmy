@@ -43,13 +43,14 @@ wszystko = function(link){
   mpaa = wyjmij(film, '#titleStoryLine .txt-block:nth-child(12) h4+ span')
   
   kraj = wyjmij(film,'.txt-block:nth-child(4) a')
+  if (length(kraj)>1) kraj=stri_paste(kraj,collapse='@')
   
   dane_oceny = wyjmij(film,'.star-box-details , .star-box-details span')
   
   nagrody = wyjmij(film,'#titleAwardsRanks')
   if (nagrody!='NA'){
       liczba_nominacji = unlist(stri_extract_all_regex(nagrody,'...nominations'))
-      liczba_nominacji = unlist(stri_extract_all_regex(nagrody,'[0-9]+'))
+      liczba_nominacji = unlist(stri_extract_all_regex(liczba_nominacji,'[0-9]+'))
       if (is.na(liczba_nominacji)) liczba_nominacji='NA'
       
       liczba_oscarow = unlist(stri_extract_all_regex(nagrody,'...Oscars'))
