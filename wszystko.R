@@ -85,9 +85,11 @@ wszystko = function(link){
     prod_music = get_names(obsada_link)
     
     muzyka = prod_music$music
+    if (length(muzyka)>1) muzyka=stri_paste(muzyka,collapse='@')
     producenci = prod_music$producers
     producenci = stri_paste(producenci,collapse='@')
     rezyser = director(obsada_link)
+    if (length(rezyser)>1) rezyser=stri_paste(rezyser,collapse='@')
     aktorzy = actors(obsada_link) 
     aktorzy = stri_paste(aktorzy,collapse='@')
   }
