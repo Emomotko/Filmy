@@ -11,9 +11,9 @@ actors(www)
 \item{www}{A link - see full cast from imdb.}
 }
 \value{
-list with info about actors
+list with info about actors, moreover all info is saved in csv file
 }
 \description{
-Function \code{actors} gets info about actors.
+Function \code{actors} gets info about actors (age,place and date of birth, death).
 }
 

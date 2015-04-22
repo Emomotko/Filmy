@@ -3,7 +3,7 @@
 \name{director}
 \alias{director}
 \alias{subtitle}
-\title{Collect info about director}
+\title{Collect info about directors}
 \usage{
 director(www)
 }
@@ -11,9 +11,9 @@ director(www)
 \item{www}{A link - see full cast from imdb.}
 }
 \value{
-list with info about actors.
+list with info about actors, moreover all info is saved in csv file.
 }
 \description{
-Function \code{director} gets info about actors.
+Function \code{director} gets info about directors.
 }
 

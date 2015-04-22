@@ -10,12 +10,12 @@ create(fname, lista)
 \arguments{
 \item{fname}{Name of a file where info is to be saved.}
 
-\item{frame}{a data frame with 6 colums}
+\item{frame}{a data frame with 5 colums}
 }
 \value{
 invisible(NULL)  - all info is gathered in a particular file.
 }
 \description{
-Function \code{create} gets info about actors.
+Function \code{create} saves info about actors in a file.
 }
 

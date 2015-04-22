@@ -14,6 +14,6 @@ get_names(www)
 a list: first element - musicians, second - producers
 }
 \description{
-Function \code{get_names} gets info about actors.
+Function \code{get_names} gets names of director and producers.
 }
 

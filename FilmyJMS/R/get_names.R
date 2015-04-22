@@ -1,6 +1,6 @@
 #' Collect names of producers and musicians
 #'
-#' Function \code{get_names} gets info about actors.
+#' Function \code{get_names} gets names of director and producers.
 #'
 #' @aliases subtitle
 #' @param www A link - see full cast from imdb.
@@ -12,6 +12,7 @@
 #' 
 get_names <- function(www) {
     
+    # jesli brak neta lub bledny link - obsluga bledu
     url <- tryCatch({
         html(www)
     }, error = function(e) {
@@ -38,7 +39,7 @@ get_names <- function(www) {
         "NA"
     })
     
-    
+    # zwraca liste
     if (length(prod) == 0) 
         prod <- "NA"
     if (length(music) == 0) 

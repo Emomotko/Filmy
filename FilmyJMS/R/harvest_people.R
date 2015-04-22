@@ -1,6 +1,6 @@
 #' Collect info about people
 #'
-#' Function \code{harvest_people} gets info about actors.
+#' Function \code{harvest_people} gets info about people.
 #'
 #' @aliases subtitle
 #' @param htmls list of html objects - parsed HTML pages .
@@ -12,6 +12,7 @@
 #' 
 harvest_people <- function(htmls) {
     
+    # ustawiamy zeby dobrze konwertowalo czas
     Sys.setlocale("LC_TIME", "English")
     
     # daty urodzenia
@@ -85,6 +86,7 @@ harvest_people <- function(htmls) {
         return(c(birthday, death))
     })
     
+    # miejsce urodzenia
     PLACE <- sapply(htmls, function(x) {
         
         place <- getNodeSet(x, "//div[@id='name-born-info']//a[@href]")
@@ -105,6 +107,7 @@ harvest_people <- function(htmls) {
         
     })
     
+    # imie i zawod
     IMIE_ZAWOD <- sapply(htmls, function(x) {
         
         p <- getNodeSet(x, "//span[@class='itemprop']")
@@ -128,10 +131,13 @@ harvest_people <- function(htmls) {
         
         return(c(imie, zawod))
     })
+    
+    # zdejmij nazwy zeby ladniej
     BIRTH_DEATH <- unname(BIRTH_DEATH)
     IMIE_ZAWOD <- unname(IMIE_ZAWOD)
     PLACE <- unname(PLACE)
     
+    # zwraca
     list(name = IMIE_ZAWOD[1, ], job = IMIE_ZAWOD[2, ], birth = BIRTH_DEATH[1, ], 
         birth_place = PLACE, death = BIRTH_DEATH[2, ])
     

@@ -16,6 +16,6 @@ htmls_movie(www, selector)
 list of parsed pages or 'NA' if pages don't exist.
 }
 \description{
-Function \code{htmls_movie} gets info about actors.
+Function \code{htmls_movie} parses html pages
 }
 

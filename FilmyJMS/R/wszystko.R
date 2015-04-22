@@ -12,7 +12,6 @@
 
 wszystko = function(link) {
     
-    
     film = tryCatch({
         html(link)
     }, error = function(e) {
@@ -22,51 +21,44 @@ wszystko = function(link) {
         return("NA")
     
     tytul = wyjmij(film, ".header .itemprop")
+    tytul = sprawdz(tytul)
     rok = wyjmij(film, ".header .nobr")
     rok = stri_sub(rok, 2, 5)  # pozbywam sie zbednych nawiasow
+    rok = sprawdz(rok)
     czas = wyjmij(film, "time")
-    czas = czas[2]  # na stronie zawsze jest dwa razy podany czas filmu, dlatego biore tylko
-    # jeden bo to jest to samo
-    if (is.na(czas)) {
-        czas = "NA"
-    }
-    
+    czas = czas[2]  # na stronie zawsze sa podane dwa czasy(takie same) wiec biore jeden
+    czas = sprawdz(czas)
     gatunek = wyjmij(film, ".infobar .itemprop")
     gatunek = stri_paste(gatunek, collapse = "@")
-    
-    
+    gatunek = sprawdz(gatunek)
     data_wydania = wyjmij(film, ".infobar .nobr a")
-    
-    fabula = wyjmij(film, "#titleStoryLine p")  # fabula czasami to jest to samo co opis
-    fabula = stri_replace_all_regex(fabula, ";", ",")
-    # ale nie zawsze wiec rozroniam
-    
+    data_wydania = sprawdz(data_wydania)
+    fabula = wyjmij(film, "#titleStoryLine p")
+    fabula = stri_replace_all_regex(fabula, ";", ",")  # srednik bedzie moim separatorem 
+    # przy zapisywaniu stad taka zamiana
+    fabula = sprawdz(fabula)
     # Motion Picture Rating:
     mpaa = wyjmij(film, "#titleStoryLine .txt-block:nth-child(12) h4+ span")
-    
+    mpaa = sprawdz(mpaa)
     kraj = wyjmij(film, ".txt-block:nth-child(4) a")
     if (length(kraj) > 1) 
         kraj = stri_paste(kraj, collapse = "@")
-    
-    dane_oceny = wyjmij(film, ".star-box-details , .star-box-details span")
+    kraj = sprawdz(kraj)
     
     nagrody = wyjmij(film, "#titleAwardsRanks")
     if (nagrody != "NA") {
         liczba_nominacji = unlist(stri_extract_all_regex(nagrody, "...nominations"))
         liczba_nominacji = unlist(stri_extract_all_regex(liczba_nominacji, "[0-9]+"))
-        if (is.na(liczba_nominacji)) 
-            liczba_nominacji = "NA"
+        liczba_nominacji = sprawdz(liczba_nominacji)
         
         liczba_oscarow = unlist(stri_extract_all_regex(nagrody, "...Oscars"))
         liczba_oscarow = unlist(stri_extract_all_regex(liczba_oscarow, "[0-9]+"))
-        if (is.na(liczba_oscarow)) 
-            liczba_oscarow = "NA"
+        liczba_oscarow = sprawdz(liczba_oscarow)
         
         liczba_innych_nagrod = unlist(stri_extract_all_regex(nagrody, "...wins"))
         liczba_innych_nagrod = unlist(stri_extract_all_regex(liczba_innych_nagrod, 
             "[0-9]+"))
-        if (is.na(liczba_innych_nagrod)) 
-            liczba_innych_nagrod = "NA"
+        liczba_innych_nagrod = sprawdz(liczba_innych_nagrod)
         
     } else {
         liczba_nominacji = "NA"
@@ -74,19 +66,16 @@ wszystko = function(link) {
         liczba_innych_nagrod = "NA"
     }
     
+    dane_oceny = wyjmij(film, ".star-box-details , .star-box-details span")
     
     ocena = dane_oceny[2]
-    if (is.na(ocena)) 
-        ocena = "NA"
+    ocena = sprawdz(ocena)
     max_ocena = dane_oceny[4]
-    if (is.na(max_ocena)) 
-        max_ocena = "NA"
+    max_ocena = sprawdz(max_ocena)
     liczba_glosujacych = dane_oceny[5]
-    if (is.na(liczba_glosujacych)) 
-        liczba_glosujacych = "NA"
+    liczba_glosujacych = sprawdz(liczba_glosujacych)
     liczba_recenzji = dane_oceny[6]
-    if (is.na(liczba_recenzji)) 
-        liczba_recenzji = "NA"
+    liczba_recenzji = sprawdz(liczba_recenzji)
     
     link_and_title = html_nodes(film, "a")
     links = html_attr(link_and_title, name = "href")
@@ -100,43 +89,54 @@ wszystko = function(link) {
         prod_music = get_names(obsada_link)
         
         muzyka = prod_music$music
-        if (length(muzyka) > 1) 
-            muzyka = stri_paste(muzyka, collapse = "@")
+        muzyka = stri_paste(muzyka, collapse = "@")
+        muzyka = sprawdz(muzyka)
+        
         producenci = prod_music$producers
         producenci = stri_paste(producenci, collapse = "@")
+        producenci = sprawdz(producenci)
+        
         rezyser = director(obsada_link)
-        if (length(rezyser) > 1) 
-            rezyser = stri_paste(rezyser, collapse = "@")
+        rezyser = stri_paste(rezyser, collapse = "@")
+        rezyser = sprawdz(rezyser)
+        
         aktorzy = actors(obsada_link)
         aktorzy = stri_paste(aktorzy, collapse = "@")
+        aktorzy = sprawdz(aktorzy)
     } else {
-        muzyka <- "NA"
-        producenci <- "NA"
-        rezyser <- "NA"
-        aktorzy <- "NA"
+        muzyka = "NA"
+        producenci = "NA"
+        rezyser = "NA"
+        aktorzy = "NA"
     }
     
-    
-    
-    # masakryczne wydobycie budzetu:
-    kt = stri_locate_all_regex(html_text(film), "Budget")
-    kt = unlist(kt)
-    budzet = stri_sub(html_text(film), kt[1] + 7, kt[2] + 28)
+    ktory = stri_locate_all_regex(html_text(film), "Budget")
+    ktory = unlist(ktory)
+    budzet = stri_sub(html_text(film), ktory[1] + 7, ktory[2] + 28)
     budzet = stri_replace_all_regex(budzet, "\\p{WHITE_SPACE}", " ")
-    if (is.na(budzet)) 
+    if (length(ktory) > 2) {
         budzet = "NA"
+    }
+    budzet = sprawdz(budzet)
     
     opis = summary(links, titles, film)
     if (length(opis) > 1) {
         opis = opis[2]
     }
+    opis = sprawdz(opis)
     
     klucze = wydobadz(links, titles, film, "Keywords", ".sodatext")
     klucze = stri_trim(klucze, "both")
     klucze = stri_paste(klucze, collapse = "@")
+    klucze = sprawdz(klucze)
+    
     recenzje = wydobadz(links, titles, film, "Reviews", "div+ p")
     recenzje = stri_replace_all_regex(recenzje, ";", ",")
+    recenzje = sprawdz(recenzje)
+    
+    
     id_film = stri_sub(link, 27, 35)
+    id_film = sprawdz(id_film)
     
     lista2 = list(id = id_film, link = link, Title = tytul, Year = rok, Time = czas, 
         Relase = data_wydania, Genre = gatunek, Storyline = fabula, MPAA = mpaa, 
@@ -144,6 +144,7 @@ wszystko = function(link) {
         Reviews_number = liczba_recenzji, Budget = budzet, Keywords = klucze, Description = opis, 
         Oscar = liczba_oscarow, Another_awards = liczba_innych_nagrod, Nominations = liczba_nominacji, 
         Music = muzyka, Produced = producenci, Actors = aktorzy, Director = rezyser)
+    
     
     lista3 = list(id = id_film, text = recenzje)
     create2("filmy.csv", lista2)

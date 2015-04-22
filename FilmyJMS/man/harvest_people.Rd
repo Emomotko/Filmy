@@ -14,6 +14,6 @@ harvest_people(htmls)
 list with info about people.
 }
 \description{
-Function \code{harvest_people} gets info about actors.
+Function \code{harvest_people} gets info about people.
 }
 

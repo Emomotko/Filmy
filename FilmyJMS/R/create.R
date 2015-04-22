@@ -1,10 +1,10 @@
 #' Create a file from a data.frame and saves it.
 #'
-#' Function \code{create} gets info about actors.
+#' Function \code{create} saves info about actors in a file.
 #'
 #' @aliases subtitle
 #' @param fname Name of a file where info is to be saved.
-#' @param frame a data frame with 6 colums
+#' @param frame a data frame with 5 colums
 #' @return invisible(NULL)  - all info is gathered in a particular file.
 #' @import stringi
 #' 
@@ -12,6 +12,7 @@
 #' 
 create <- function(fname, lista) {
     
+    # jesli nie bylo pliku to utworz
     if (!file.exists(fname)) {
         f <- file(fname, open = "a")
         # tworze pierwszy wiersz w pliku:
@@ -19,6 +20,7 @@ create <- function(fname, lista) {
             "\"BirthDate\"", "\"DeathDate\"", sep = ";"), f)
     } else f <- file(fname, open = "a")
     
+    # jesli mamy jakies dane to zapisuj
     if (length(lista$name) > 0) {
         
         for (i in seq_along(lista$name)) {

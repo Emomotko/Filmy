@@ -1,6 +1,6 @@
 #' Parse many of HTML pages for actorS AND director
 #'
-#' Function \code{htmls_movie} gets info about actors.
+#' Function \code{htmls_movie} parses html pages
 #'
 #' @aliases subtitle
 #' @param www A link - see full cast from imdb.
@@ -14,6 +14,7 @@
 #' 
 htmls_movie <- function(www, selector) {
     
+    # obsluga bledu
     url <- tryCatch({
         
         html(www)
@@ -22,10 +23,11 @@ htmls_movie <- function(www, selector) {
         "NA"
     })
     
+    # jesli blad to wyrzuc NA
     if (is.character(url) && url == "NA") 
         return("NA")
     
-    
+    # zbieramy linki
     a <- getNodeSet(url, selector)
     if (is.null(a)) 
         return("NA")
@@ -41,6 +43,9 @@ htmls_movie <- function(www, selector) {
     } else if (names(selector) == "director") {
         czy <- stri_detect_fixed(linki, "ttfc_fc_dr")
     }
+    
+    # zwroc albo sparsowane strony albo NA, nie biore calej obsady bo to zbedne w
+    # zaleznosci od liczby aktorow wybieram ich ilosc - tych waznych
     if (any(czy == TRUE)) {
         linki <- linki[czy]
         podstawa <- "http://www.imdb.com"
