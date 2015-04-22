@@ -110,6 +110,9 @@ wszystko = function(link){
   kt = unlist(kt)
   budzet = stri_sub(html_text(film),kt[1]+7,kt[2]+28)
   budzet = stri_replace_all_regex(budzet,'\\p{WHITE_SPACE}',' ')
+  if (length(kt)>2){
+    budzet = 'NA'
+  }
   if (is.na(budzet)) budzet='NA'
   
   opis = summary(links,titles,film)
