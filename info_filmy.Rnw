@@ -6,8 +6,10 @@
 \begin{document}
 
 \textbf{Liczba zebranych filmów:}
+15781
 
 \textbf{Wielkość zebranych danych:}
+179 292 KB
 
 \textbf{Charakterystyki}
 \begin{enumerate}
