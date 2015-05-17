@@ -38,6 +38,7 @@ wszystko = function(link){
   #Motion Picture Rating:
   mpaa = wyjmij(film, '#titleStoryLine .txt-block:nth-child(12) h4+ span')
   mpaa = sprawdz(mpaa)
+  mpaa = stri_replace_all_regex(mpaa,';',',')
   kraj = wyjmij(film,'.txt-block:nth-child(4) a')
   if (length(kraj)>1) kraj=stri_paste(kraj,collapse='@')
   kraj = sprawdz(kraj)
@@ -116,14 +117,17 @@ wszystko = function(link){
   budzet = sprawdz(budzet)
   
   opis = summary(links,titles,film)
+  opis = stri_replace_all_regex(opis,';',',')
   if (length(opis)>1){
     opis = opis[2]
+    opis = stri_replace_all_regex(opis,';',',')
   }
   opis = sprawdz(opis)
   
   klucze = wydobadz(links,titles,film,'Keywords','.sodatext') 
   klucze = stri_trim(klucze,'both')
   klucze = stri_paste(klucze,collapse='@')
+  klucze = stri_replace_all_regex(klucze,';',',')
   klucze = sprawdz(klucze)
   
   recenzje = wydobadz(links,titles,film,'Reviews','div+ p')
