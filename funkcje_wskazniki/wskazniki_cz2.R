@@ -1,4 +1,5 @@
 library(stringi)
+library(tm)
 
 #f_glowny = filmy[2]
 #f_por = filmy[10]
@@ -41,14 +42,14 @@ rok = function(rok_glowny,rok_por){
   
 }
 
-rok_glowny = f_glowny[4]
-rok_por = f_por[4]
-rok(rok_glowny,rok_por)
+# rok_glowny = f_glowny[4]
+# rok_por = f_por[4]
+# rok(rok_glowny,rok_por)
 
 # Funkcja sprawdza czy jakies elementy z jednego wektora wystepuja w drugim
 czy_zawiera = function(glowny,por){
   
-  if (glowny=="NA"||por=="NA"){
+  if (glowny=="NA"||por=="NA"||is.na(glowny)||is.na(por)){
     return(NA)
   }
   
@@ -68,34 +69,34 @@ czy_zawiera = function(glowny,por){
 }
 
 # porownanie gatunkow:
-gat_glowny = f_glowny[7]
-gat_por = f_por[7]
-czy_zawiera(gat_glowny,gat_por)
-
-#porownanie kraju powstania filmu:
-kraj_glowny = f_glowny[10]
-kraj_por = f_por[10]
-czy_zwiera(kraj_glowny,kraj_por)
-
-# porownanie czy ci sami tworcy muzyki:
-muz_glowny = f_glowny[20]
-muz_por = f_por[20]
-czy_zawiera(muz_glowny,muz_por)
-
-# porownanie czy ci sami producenci:
-prod_glowny = f_glowny[21]
-prod_por = f_por[21]
-czy_zawiera(prod_glowny,prod_por)
-
-# porownanie czy sa jacys tacy sami aktorzy 
-aktorzy_glowny = f_glowny[22]
-aktorzy_por = f_por[22]
-czy_zawiera(aktorzy_glowny,aktorzy_por)
-
-#porownanie czy sa jacys tacy sami rezyserzy
-rez_glowny = f_glowny[23]
-rez_por = f_por[23]
-czy_zawiera(rez_glowny,rez_por)
+# gat_glowny = f_glowny[7]
+# gat_por = f_por[7]
+# czy_zawiera(gat_glowny,gat_por)
+# 
+# #porownanie kraju powstania filmu:
+# kraj_glowny = f_glowny[10]
+# kraj_por = f_por[10]
+# czy_zwiera(kraj_glowny,kraj_por)
+# 
+# # porownanie czy ci sami tworcy muzyki:
+# muz_glowny = f_glowny[20]
+# muz_por = f_por[20]
+# czy_zawiera(muz_glowny,muz_por)
+# 
+# # porownanie czy ci sami producenci:
+# prod_glowny = f_glowny[21]
+# prod_por = f_por[21]
+# czy_zawiera(prod_glowny,prod_por)
+# 
+# # porownanie czy sa jacys tacy sami aktorzy 
+# aktorzy_glowny = f_glowny[22]
+# aktorzy_por = f_por[22]
+# czy_zawiera(aktorzy_glowny,aktorzy_por)
+# 
+# #porownanie czy sa jacys tacy sami rezyserzy
+# rez_glowny = f_glowny[23]
+# rez_por = f_por[23]
+# czy_zawiera(rez_glowny,rez_por)
 
 
 
@@ -105,10 +106,11 @@ czy_zawiera(rez_glowny,rez_por)
 # dla oceny bedzie 0.3, dla liczby uzytkownikow 50000, dla liczby recenzji 20
 roznica = function(glowny,por,param){
   
-  if(glowny=="NA"||por=="NA") return("NA")
+  
   
   glowny = as.numeric(glowny)
   por = as.numeric(por)
+  if(glowny=="NA"||por=="NA"||is.na(glowny)||is.na(por)) return(NA)
   
   if (abs(glowny-por) <= param){
     return(1)
@@ -117,23 +119,23 @@ roznica = function(glowny,por,param){
 }
 
 
-ocena_glowny = f_glowny[11]
-ocena_por = f_por[11]
-uzyt_glowny = f_glowny[12] #liczba uzytkownikow ktora ocenila dany film
-uzyt_por = f_por[12]
-lr_glowny = f_glowny[13] # liczba recenzji
-lr_por = f_por[13]
-
-roznica(ocena_glowny,ocena_por,0.3)
-roznica(uzyt_glowny,uzyt_por,50000)
-roznica(lr_glowny,lr_por,20)
+# ocena_glowny = f_glowny[11]
+# ocena_por = f_por[11]
+# uzyt_glowny = f_glowny[12] #liczba uzytkownikow ktora ocenila dany film
+# uzyt_por = f_por[12]
+# lr_glowny = f_glowny[13] # liczba recenzji
+# lr_por = f_por[13]
+# 
+# roznica(ocena_glowny,ocena_por,0.3)
+# roznica(uzyt_glowny,uzyt_por,50000)
+# roznica(lr_glowny,lr_por,20)
 
 
 
 frakcja_powtarzanych_slow <- function(text_gl, text_por){
   
   
-  if(text_gl=="na"||text_por=="na"||text_gl=="NA"||text_por=="NA"){
+  if(text_gl=="na"||text_por=="na"||text_gl=="NA"||text_por=="NA"||is.na(text_gl)||is.na(text_por)){
     
     return(NA)
   }
@@ -161,18 +163,18 @@ frakcja_powtarzanych_slow <- function(text_gl, text_por){
   2*(sum(stri_duplicated(c(o1,o2)))/length(c(o1,o2)))
   
 }
-# porownanie podobienstw keywordsow
-key_glowny = f_glowny[15]
-key_por = f_por[15]
-key_g = stri_split_fixed(key_glowny,'@')
-key_p = stri_split_fixed(key_por,'@')
-frakcja_powtarzanych_slow(key_g,key_p)
+# # porownanie podobienstw keywordsow
+# key_glowny = f_glowny[15]
+# key_por = f_por[15]
+# key_g = stri_split_fixed(key_glowny,'@')
+# key_p = stri_split_fixed(key_por,'@')
+# frakcja_powtarzanych_slow(key_g,key_p)
 
 
 
 czy_to_samo = function(text_gl,text_por){
   
-  if(text_gl=="NA"||text_por=="NA"){
+  if(text_gl=="NA"||text_por=="NA"||is.na(text_gl)||is.na(text_por)){
     return(NA)
   }
   if (text_gl>0 && text_por>0){
@@ -183,15 +185,15 @@ czy_to_samo = function(text_gl,text_por){
   
 }# sprawdzam tylko czy sa jakiekolwiek oscary czy nie - chyba bez sensu
 # bawic sie w to ile tych oscarow jest bo i tak rzadko ktory film ma jakiekolwiek oscary
-
-#oscary:
-oscar_glowny = f_glowny[17]
-oscar_por = f_por[17]
-czy_to_samo(oscar_glowny,oscar_por)
-#inne narody:
-nagr_glowny = f_glowny[18]
-nagr_por = f_por[18]
-czy_to_samo(nagr_glowny,nagr_por)
+# 
+# #oscary:
+# oscar_glowny = f_glowny[17]
+# oscar_por = f_por[17]
+# czy_to_samo(oscar_glowny,oscar_por)
+# #inne narody:
+# nagr_glowny = f_glowny[18]
+# nagr_por = f_por[18]
+# czy_to_samo(nagr_glowny,nagr_por)
 
 
 
