@@ -29,6 +29,25 @@ wylicz5 <- function(numer=1, aktorzy, rezyserzy, filmy, ile_wszystkich){
   #wczytujemy film glowny
   f_glowny<- filmy[numer,]
   
+  rok_glowny = f_glowny[1,4]
+  gat_glowny = f_glowny[1,7]
+  kraj_glowny = f_glowny[1,10]
+  muz_glowny = f_glowny[1,20]
+  prod_glowny = f_glowny[1,21]
+  aktorzy_glowny = f_glowny[1,22]
+  rez_glowny = f_glowny[1,23]
+  
+  ocena_glowny = f_glowny[1,11]
+  uzyt_glowny = f_glowny[1,12] #liczba uzytkownikow ktora ocenila dany film
+  lr_glowny = f_glowny[1,13] # liczba recenzji
+  
+  oscar_glowny = f_glowny[1,17]
+  nagr_glowny = f_glowny[1,18]
+
+  
+  key_glowny = f_glowny[1,15]
+  key_g = stri_split_fixed(key_glowny,'@')
+  
   #wyznaczamy czas trwania filmu
   czas_glowny <- as.numeric(f_glowny[1,5])
   
@@ -53,6 +72,58 @@ wylicz5 <- function(numer=1, aktorzy, rezyserzy, filmy, ile_wszystkich){
     
     
     f_por <- filmy[i,]
+    rok_por = f_por[1,4]
+    
+    #rok powstania
+    rok_powstania <- rok(rok_glowny,rok_por)
+    
+    #print(i)
+    #gatunki
+    gat_por = f_por[1,7]
+    gatunki <- czy_zawiera(gat_glowny,gat_por)
+    
+    #kraje
+    kraj_por = f_por[1,10]
+    kraje <- czy_zawiera(kraj_glowny,kraj_por)
+    
+    #muzyka
+    muz_por = f_por[1,20]
+    muzyka <- czy_zawiera(muz_glowny,muz_por)
+    
+    #producenci
+    prod_por = f_por[1,21]
+    producent <- czy_zawiera(prod_glowny,prod_por)
+    
+    #aktorzy
+    aktorzy_por = f_por[1,22]
+    aktorzy_zaw <- czy_zawiera(aktorzy_glowny,aktorzy_por)
+    
+    #rezyser
+    rez_por = f_por[1,23]
+    rezyser <- czy_zawiera(rez_glowny,rez_por)
+    
+    #oceny itd
+    ocena_por = f_por[1,11]
+    uzyt_por = f_por[1,12]
+    lr_por = f_por[1,13]
+    oceny <- roznica(ocena_glowny,ocena_por,0.3)
+    uzytkownicy <- roznica(uzyt_glowny,uzyt_por,50000)
+    recenzje <- roznica(lr_glowny,lr_por,20)
+    
+    #klucze itd
+    key_por = f_por[1,15]
+    key_p = stri_split_fixed(key_por,'@')
+    key <- frakcja_powtarzanych_slow(key_g,key_p)
+    
+    #nagrody
+    oscar_por = f_por[1,17]
+    oscar <- czy_to_samo(oscar_glowny,oscar_por)
+    #inne narody:
+    nagr_por = f_por[1,18]
+    nagrody <- czy_to_samo(nagr_glowny,nagr_por)
+    
+    
+    
     czas_por <- as.numeric(f_por[1,5])
     
     cz <- czas(czas_glowny,czas_por)
@@ -86,7 +157,9 @@ wylicz5 <- function(numer=1, aktorzy, rezyserzy, filmy, ile_wszystkich){
     
     kr_r <- kraje(z_r)
     
-    wartosci[i-numer] <- sum(c(cz, frakcje_opis,frakcje_fabula, r_a,m_a,kr_a,m_r,kr_r),na.rm=TRUE)
+    wartosci[i-numer] <- sum(c(cz, frakcje_opis,frakcje_fabula, r_a,m_a,kr_a,m_r,kr_r,rok_powstania,gatunki,
+                               kraje,muzyka,producent,aktorzy_zaw,rezyser,
+                               oceny, uzytkownicy, recenzje,key,oscar,nagrody),na.rm=TRUE)/21
   }
     
   return(wartosci)
@@ -95,3 +168,6 @@ wylicz5 <- function(numer=1, aktorzy, rezyserzy, filmy, ile_wszystkich){
 
 ###filmy <- read.csv2("filmyClean.csv",stringsAsFactors=FALSE) - trzeba ustawic zeby
 #napisy nie byly faktorami bo sie psuje
+
+
+#s <- wylicz5(numer=1, aktorzy, rezyserzy,filmy,ile_wszystkich=100)
