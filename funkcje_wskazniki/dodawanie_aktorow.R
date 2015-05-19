@@ -1,7 +1,9 @@
-aktorzy <- read.csv2("ActorsSuperClean.csv")
-rezyserzy <- read.csv2("DirectorsSuperClean.csv")
-filmy <- read.csv2("filmyClean.csv",stringsAsFactors=FALSE)
-filmy <- filmy[1:1000,]
+# setwd("D:\\Moje dokumenty\\Emilka\\Movies\\ostateczne")
+# 
+# aktorzy <- read.csv2("ActorsClean.csv")
+# rezyserzy <- read.csv2("DirectorsClean.csv")
+# filmy <- read.csv2("filmyClean.csv",stringsAsFactors=FALSE)
+
 
 dodaj_aktorzy_rezyser <- function(filmy, aktorzy, rezyserzy){
   
@@ -33,5 +35,5 @@ dodaj_aktorzy_rezyser <- function(filmy, aktorzy, rezyserzy){
   
 }
 
-##s <- dodaj_aktorzy_rezyser(filmy,aktorzy,rezyserzy) #trzeba jeszcze zapisac bedzie
-
+# s <- dodaj_aktorzy_rezyser(filmy,aktorzy,rezyserzy) #trzeba jeszcze zapisac bedzie
+# write.csv2(s,"filmy.csv",row.names=FALSE)
