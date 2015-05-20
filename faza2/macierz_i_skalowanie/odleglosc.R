@@ -82,17 +82,14 @@ odleglosc <- function(f_glowny, f_por, filmy){
   rezyser_kraje <- frakcja(f_glowny[1,28],f_por[1,28])
   
   #wektor wskaznikow
-  wartosci <- c(cz, frakcje_opis,frakcje_fabula, mediana_aktorzy,rozrzut_aktorzy,
-                mediana_rezyser,aktor_kraje,rezyser_kraje,rok_powstania,gatunki,
-                kraje,muzyka,producent,aktorzy_zaw,rezyser,
-                oceny, uzytkownicy, recenzje,key,oscar,nagrody)
-  waga <- 21
+  
+  waga <- 30
   
   #zwracane podobienstwo
   sum(c(cz, frakcje_opis,frakcje_fabula, mediana_aktorzy,rozrzut_aktorzy,
-        mediana_rezyser,aktor_kraje,rezyser_kraje,rok_powstania,gatunki,
-        kraje,muzyka,producent,aktorzy_zaw,rezyser,
-        oceny, uzytkownicy, recenzje,key,oscar,nagrody),na.rm=TRUE)/waga
+        mediana_rezyser,aktor_kraje,rezyser_kraje,rok_powstania,4*gatunki,
+        kraje,muzyka,producent,aktorzy_zaw,3*rezyser,
+        oceny, uzytkownicy, recenzje,4*key,oscar,nagrody,tresci_recenzji),na.rm=TRUE)/waga
     
 }
 
