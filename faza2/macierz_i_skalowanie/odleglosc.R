@@ -86,9 +86,7 @@ odleglosc <- function(f_glowny, f_por, filmy){
                 mediana_rezyser,aktor_kraje,rezyser_kraje,rok_powstania,gatunki,
                 kraje,muzyka,producent,aktorzy_zaw,rezyser,
                 oceny, uzytkownicy, recenzje,key,oscar,nagrody)
-  
-  #wagi zaleza od liczby NA
-  waga <- sum(!is.na(wartosci))
+  waga <- 21
   
   #zwracane podobienstwo
   sum(c(cz, frakcje_opis,frakcje_fabula, mediana_aktorzy,rozrzut_aktorzy,
@@ -97,3 +95,13 @@ odleglosc <- function(f_glowny, f_por, filmy){
         oceny, uzytkownicy, recenzje,key,oscar,nagrody),na.rm=TRUE)/waga
     
 }
+
+## dla Justyny
+# 
+# filmy <- read.csv2("filmy24.csv",stringsAsFactors=FALSE)
+# 
+# m <- tworz_macierz(ile = 100, filmy=filmy)
+# 
+# save(m ,file = "macierz.RData")
+# 
+# load("macierz.RData")
