@@ -16,6 +16,8 @@
 #'
 #'@author Emilia Momotko
 #'
+#'@import stringi
+#'
 
 frakcja_powtarzanych_slow <- function(text_gl, text_por){
   

@@ -16,6 +16,7 @@
 #'
 #'@author Emilia Momotko
 #'
+#'@import stringi
 
 frakcja <- function(a1, a2){
   
