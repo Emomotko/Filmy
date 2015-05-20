@@ -16,7 +16,6 @@
 #'@author Adrianna Sudol
 #'
 #'
-
 czy_zawiera = function(glowny,por){
   
   if (glowny=="NA"||por=="NA"||is.na(glowny)||is.na(por)){

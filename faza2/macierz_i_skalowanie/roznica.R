@@ -19,10 +19,7 @@
 #'@author Adrianna Sudol
 #'
 #'
-
-roznica = function(glowny,por,param){
-  
-  
+roznica = function(glowny,por,param){ 
   
   glowny = as.numeric(glowny)
   por = as.numeric(por)
