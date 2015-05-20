@@ -36,8 +36,8 @@ wyczysc_aktorow <- function(actors) {
    
    #zamiast całej daty bierzemy tylko rok - to wystarczy
    #zwłaszcza, że dla niektórych mamy tylko sam rok podany
-   df$BirthDate <- strftime(strptime(df$BirthDate, "%Y"), "%Y")
-   df$DeathDate <- strftime(strptime(df$DeathDate, "%Y"), "%Y")
+   df[,3] <- strftime(strptime(df[,3], "%Y"), "%Y")
+   df[,5] <- strftime(strptime(df[,5], "%Y"), "%Y")
    df[is.na(df)] <- "NA"
    
    #usuwamy wiersze, gdzie o aktorze nie ma żadnej informacji 
@@ -90,8 +90,8 @@ wyczysc_rezyserow <- function(directors) {
    
    #zamiast całej daty bierzemy tylko rok - to wystarczy
    #zwłaszcza, że dla niektórych mamy tylko sam rok podany
-   df$BirthDate <- strftime(strptime(df$BirthDate, "%Y"), "%Y")
-   df$DeathDate <- strftime(strptime(df$DeathDate, "%Y"), "%Y")
+   df[,3] <- strftime(strptime(df[,3], "%Y"), "%Y")
+   df[,5] <- strftime(strptime(df[,5], "%Y"), "%Y")
    df[is.na(df)] <- "NA"
    
    #usuwamy wiersze, gdzie o reżyserze nie ma żadnej informacji 
@@ -138,23 +138,23 @@ wyczysc_recenzje <- function(review) {
    df <- df[na,]
    
    #czyszcze treści
-   corpus <- Corpus(VectorSource(df$text))
+   corpus <- Corpus(VectorSource(df[,2]))
    corpus <- tm_map(corpus, removePunctuation)
    corpus <- tm_map(corpus, content_transformer(tolower))
    corpus <- tm_map(corpus, removeWords, stopwords("english"))
    corpus <- tm_map(corpus, stemDocument)
    corpus <- tm_map(corpus, stripWhitespace)
    
-   df2 <- data.frame(id = df$id, text=unlist(sapply(corpus, `[`, "content")),
+   df2 <- data.frame(id = df[,1], text=unlist(sapply(corpus, `[`, "content")),
                      stringsAsFactors = FALSE)
    
    #niestety mogą być jakieś bugi, w wierszach
-   ktore.ok <- stri_detect_regex(df2$id, "tt[0-9]+")
+   ktore.ok <- stri_detect_regex(df2[,1], "tt[0-9]+")
    df2 <- df2[ktore.ok, ]
    
    #łącze recenzje - jeden wiersz dla jednego filmu (połączone recenzje wg id)
-   df2$id <- as.factor(df2$id)
-   lista <- tapply(df2$text, df2$id, function(x){
+   df2[,1] <- as.factor(df2[,1])
+   lista <- tapply(df2[,2], df2[,1], function(x){
       stri_paste(x, collapse = " ")
    })
    
@@ -164,7 +164,7 @@ wyczysc_recenzje <- function(review) {
    text2 <- lapply(slowa, function(x) paste(x, collapse = " "))
    df3 <- data.frame(id = names(lista), text = unlist(text2))
    #w razie jakby jakimś cudem były dwa filmy o tym samym id ale nie identyczne w innych kolumnach
-   df3 <- df3[!duplicated(df3$id),]
+   df3 <- df3[!duplicated(df3[,1]),]
    return(df3)
 }
 
@@ -190,7 +190,7 @@ wyczysc_filmy <- function(films) {
    
    #patrzymy, które się źle zapisały, tzn. w opisie były średniki i kolumny sę podzieliły
    dobre <- sapply(f, function(x){
-      x[25]==""
+      length(x)==24
    })
    
    f <- f[dobre]
@@ -209,17 +209,17 @@ wyczysc_filmy <- function(films) {
    
    #czyszczę niektóre kolumny
    #Time - wystarczy liczba, wszystko jest w minutach
-   czas <- stri_replace_all_fixed(df$Time, "min", "")
+   czas <- stri_replace_all_fixed(df[,5], "min", "")
    czas <- stri_trim_both(czas)
-   df$Time <- czas
+   df[,5] <- czas
    
    #Reviews - też zostawiamy tylko liczbę
-   rev <- stri_replace_all_regex(df$Reviews_number, "user", "")
+   rev <- stri_replace_all_regex(df[,14], "user", "")
    rev <- stri_trim_both(rev)
-   df$Reviews_number <- rev
+   df[,14] <- rev
    
    #czyszcze kolumny opisowe
-   corpus <- Corpus(VectorSource(df$Storyline))
+   corpus <- Corpus(VectorSource(df[,8]))
    corpus <- tm_map(corpus, removePunctuation)
    corpus <- tm_map(corpus, content_transformer(tolower))
    corpus <- tm_map(corpus, removeWords, stopwords("english"))
@@ -231,7 +231,7 @@ wyczysc_filmy <- function(films) {
    text2 <- lapply(slowa, function(x) paste(x, collapse = " "))
    text2 <- lapply(text2, function(x) stri_replace_all_regex(x, "na", "NA"))
    
-   corpus <- Corpus(VectorSource(df$Description))
+   corpus <- Corpus(VectorSource(df[,17]))
    corpus <- tm_map(corpus, removePunctuation)
    corpus <- tm_map(corpus, content_transformer(tolower))
    corpus <- tm_map(corpus, removeWords, stopwords("english"))
@@ -243,11 +243,11 @@ wyczysc_filmy <- function(films) {
    text2 <- lapply(slowa, function(x) paste(x, collapse = " "))
    text2 <- lapply(text2, function(x) stri_replace_all_regex(x, "na", "NA"))
    
-   df$Storyline <- story
-   df$Description <- desc
+   df[,8] <- story
+   df[,17] <- desc
    
    #w razie jakby jakimś cudem były dwa filmy o tym samym id ale nie identyczne w innych kolumnach
-   df <- df[!duplicated(df$id),]
+   df <- df[!duplicated(df[,1]),]
    return(df)
 }
 
